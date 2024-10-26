@@ -1,0 +1,12 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.addMissingImports": "explicit",
+    // Organize imports is not here because it was causing css to be imported in the incorrect order. This caused UI bugs.
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

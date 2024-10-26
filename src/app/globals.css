@@ -26,8 +26,8 @@ body {
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  padding: 0.5rem, 1rem;
+  margin: 0.25rem;
 }
 
 a {
@@ -39,4 +39,22 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.shopping-view {
+  display: flex;
+}
+
+.product-view {
+  display: inline-block;
+  vertical-align: top;
+  width: 24rem;
+  padding: 2rem;
+}
+
+.cart-view {
+  display: inline-block;
+  vertical-align: top;
+  padding: 2rem;
+  width: 24rem;
 }
