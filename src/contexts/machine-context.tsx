@@ -3,6 +3,7 @@
 import { getState, State } from "@/types/machine";
 import { createContext, useContext, useEffect, useState } from "react";
 import { CartContext } from "./cart-context";
+import { sendOrderSuccess } from "@/utils/machine-actions";
 
 interface MachineContextType {
   state: State,
@@ -16,18 +17,20 @@ export const MachineContext = createContext<MachineContextType>({
 
 export function MachineContextProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState(State.SHOPPING);
+  const [orderId, setOrderId] = useState("");
   const {} = useContext(CartContext);
 
   useEffect(() => {
     switch(state) {
       case State.SEND_ORDER: {
+        sendOrderSuccess();
         break;
       }
       case State.SEND_ORDER_FAILURE: {
         break;
       }
     }
-  }, state);
+  }, [state]);
 
   function updateState(newState: State|string) {
     if (typeof(newState) === "string") {
