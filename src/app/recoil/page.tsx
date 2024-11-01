@@ -1,9 +1,9 @@
 "use client";
 import { productListState, cartState, loadingState } from "@/recoil/atoms";
-import { addToCartSelector } from "@/recoil/selectors";
+import { Cart, Product } from "@/types/cart-and-products";
 import { initProductList } from "@/utils/product-actions";
 import { useEffect } from "react";
-import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
 
 export default function Recoil() {
   return (
@@ -21,9 +21,8 @@ export default function Recoil() {
 }
 
 function ProductListDisplay() {
-  const [productList, setProductList] = useRecoilState(productListState);
+  const [productList, setProductList] = useRecoilState<Product[]>(productListState);
   const [isLoading, setLoading] = useRecoilState(loadingState);
-  const setAddToCart = useSetRecoilState(addToCartSelector(id));
 
   useEffect(() => {
     const getProducts = async () => {
@@ -38,12 +37,9 @@ function ProductListDisplay() {
     }
   }, [setLoading, setProductList, productList]);
 
-  const addToCart = (productId: number) => {
-    setAddToCart(productId); 
-  };
 
-  const onAddToCart = (productId: number) => {
-    addToCart(productId);
+  const onAddToCart = (id: number) => {
+    console.log(id);
   };
 
   return (
@@ -72,15 +68,18 @@ function ProductListDisplay() {
 }
 
 function CartDisplay() {
-  const cart = useRecoilValue(cartState);
+  const cart = useRecoilValue<Cart>(cartState);
 
   const onIncrement = (id: number) => {
+    console.log(id);
   }
 
   const onDecrement = (id: number) => {
+    console.log(id);
   }
 
   const onRemoveFromCart = (id: number) => {
+    console.log(id);
   }
 
   return (
