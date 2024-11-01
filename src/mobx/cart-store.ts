@@ -22,12 +22,7 @@ class CartStore {
   }
 
   addToCart = (product: Product) => {
-    const existingProduct: ProductInCart = this.products.find((p) => p.id === product.id);
-    if (existingProduct) {
-      existingProduct.quantity++;
-    } else {
-      this.products.push({ ...product, quantity: 1 });
-    }
+    this.products.push({ ...product, quantity: 1 });
   }
 
   removeFromCart = (id: number) => {
