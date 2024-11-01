@@ -1,8 +1,8 @@
 "use client";
-import { productListState, productLoadingState, cartState, toggleDisabledSelector } from "@/recoil/atoms";
-import { toggleDisabled } from "@/redux/product-slice";
-import { Product } from "@/types/cart-and-products";
-import { addProductToCart, decrementProductFromCart, incrementProductInCart, removeProductFromCart } from "@/utils/cart-actions";
+import { productListState, cartState, loadingState } from "@/recoil/atoms";
+import { addToCartSelector } from "@/recoil/selectors";
+import { initProductList } from "@/utils/product-actions";
+import { useEffect } from "react";
 import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 export default function Recoil() {
@@ -20,30 +20,50 @@ export default function Recoil() {
   );
 }
 
-export function ProductListDisplay() {
-  const productList = useRecoilValue(productListState);
-  const loading = useRecoilValue(productLoadingState);
-  const setCart = useSetRecoilState(cartState);
-  // const toggleDisabled = useSetRecoilState(toggleDisabledSelector);
+function ProductListDisplay() {
+  const [productList, setProductList] = useRecoilState(productListState);
+  const [isLoading, setLoading] = useRecoilState(loadingState);
+  const setAddToCart = useSetRecoilState(addToCartSelector(id));
 
-  const onAddToCart = (product: Product) => {
-    setCart((cart) => addProductToCart(cart, product));
-    toggleDisabled({ id: product.id, disabled: true });
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      const products = await initProductList();
+      setProductList(products);
+      setLoading(false);
+    };
+
+    if (productList.length === 0) {
+      getProducts();
+    }
+  }, [setLoading, setProductList, productList]);
+
+  const addToCart = (productId: number) => {
+    setAddToCart(productId); 
+  };
+
+  const onAddToCart = (productId: number) => {
+    addToCart(productId);
   };
 
   return (
     <div>
       <h2>Products</h2>
-      {!loading ? (
-        productList.map((product) => (
-          <div key={product.id}>
-            <h3>{product.name}</h3>
-            <p>${product.price}</p>
-            <button onClick={() => onAddToCart(product)} disabled={product.disabled}>
-              {product.disabled ? "In Cart" : "Add"}
-            </button>
-          </div>
-        ))
+      {!isLoading ? (
+        productList.map((product) => {
+          return (
+            <div key={product.id}>
+              <h3>{product.name}</h3>
+              <p>${product.price}</p>
+              <button
+                onClick={() => onAddToCart(product.id)}
+                disabled={product.disabled}
+              >
+                {product.disabled ? "In Cart" : "Add"}
+              </button>
+            </div>
+          );
+        })
       ) : (
         <p>Loading Products</p>
       )}
@@ -51,23 +71,17 @@ export function ProductListDisplay() {
   );
 }
 
-export function CartDisplay() {
-  const [cart, setCart] = useRecoilState(cartState);
-  // const toggleDisabled = useSetRecoilState(toggleDisabledSelector);
+function CartDisplay() {
+  const cart = useRecoilValue(cartState);
 
-  const onIncrement = (id: number) => setCart((cart) => incrementProductInCart(cart, id));
+  const onIncrement = (id: number) => {
+  }
+
   const onDecrement = (id: number) => {
-    setCart((cart) => {
-      const updatedCart = decrementProductFromCart(cart, id);
-      // if (!updatedCart.products.some((p) => p.id === id)) toggleDisabled({ id, disabled: false });
-      return updatedCart;
-    });
-  };
+  }
 
   const onRemoveFromCart = (id: number) => {
-    setCart((cart) => removeProductFromCart(cart, id));
-    // toggleDisabled({ id, disabled: false });
-  };
+  }
 
   return (
     <div>
