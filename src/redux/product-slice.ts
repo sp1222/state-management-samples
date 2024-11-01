@@ -26,8 +26,9 @@ const productSlice = createSlice({
       state.products = updatedProducts;
     },
   },
-  // extraReducers are typically used to update the slices own state in response to other action types besides the types it has generated
-  // , such as by createAsyncThunk
+  // extraReducers are typically used to update the slices own state 
+  // in response to other action types besides the types it has generated
+  // such as by createAsyncThunk
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.loading = true;
