@@ -9,13 +9,6 @@ import { initProductList } from "@/utils/product-actions";
 // not parameterized
 // Derived state is the output of passing state to a pure function that derives a new value from the said state
 // Derived state is a powerful concept because it lets us build dynamic data that depends on other data
-
-// A selectorFamily is a powerful pattern that is similar to a selector, 
-// but allows you to pass parameters to the get and set callbacks of a selector. 
-// The selectorFamily() utility returns a function which can be called with user-defined parameters and returns a selector. 
-// Each unique parameter value will return the same memoized selector instance.
-
-
 export const productListSelector = selector<Product[]>({
   key: "ProductListSelector",
   get: async () => {
@@ -24,6 +17,10 @@ export const productListSelector = selector<Product[]>({
   },
 });
 
+// A selectorFamily is a powerful pattern that is similar to a selector, 
+// but allows you to pass parameters to the get and set callbacks of a selector. 
+// The selectorFamily() utility returns a function which can be called with user-defined parameters and returns a selector. 
+// Each unique parameter value will return the same memoized selector instance.
 export const toggleDisabledSelector = selectorFamily({
   key: 'ToggleDisabledSelector',
   get: (id: number) => ({ get }) => {
