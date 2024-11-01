@@ -29,7 +29,10 @@ export const CartContext = createContext<CartContextType>({
 // define the context provider
 // Provides states and methods to listeners
 export function CartContextProvider({ children }: { children: React.ReactNode }) {
-  const [activeCart, setActiveCart] = useState<Cart>({ products: [] as ProductInCart[], subTotal: 0.00 });
+  const [activeCart, setActiveCart] = useState<Cart>({
+    products: [] as ProductInCart[],
+    subTotal: 0.00
+  });
   const { toggleDisabled } = useContext(ProductListContext);
 
   function addToCart(product: Product) {
