@@ -31,7 +31,7 @@ function ProductListDisplay() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const addToCartHandler = (product: Product) => {
+  const onAddToCart = (product: Product) => {
     if (!loading) {
       dispatch(addToCart(product));
       dispatch(toggleDisabled(product));
@@ -45,7 +45,9 @@ function ProductListDisplay() {
         <div key={product.id}>
           <h3>{product.name}</h3>
           <p>${product.price}</p>
-          <button onClick={() => addToCartHandler(product)} disabled={product.disabled}>{product.disabled ? "In Cart" : "Add"}</button>
+          <button onClick={() => onAddToCart(product)} disabled={product.disabled}>
+            {product.disabled ? "In Cart" : "Add"}
+          </button>
         </div>
       ))) : <p>Loading Products</p>}
     </div>
@@ -53,7 +55,7 @@ function ProductListDisplay() {
 }
 
 function CartDisplay() {
-  const cart = useSelector((state: RootState) => state.cart); // Available because of the Provider
+  const cart = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
   const [lastDecremented, setLastDecremented] = useState<number>(-1);
 
@@ -66,12 +68,12 @@ function CartDisplay() {
     }
   }, [cart, dispatch, lastDecremented]);
 
-  const incrementHandler = (id: number) => dispatch(increment(id));
-  const decrementHandler = (id: number) => {
+  const onIncrement = (id: number) => dispatch(increment(id));
+  const onDecrement = (id: number) => {
     dispatch(decrement(id));
     setLastDecremented(id);
   }
-  const removeHandler = (id: number) => {
+  const onRemoveFromCart = (id: number) => {
     dispatch(removeFromCart(id));
     setLastDecremented(id);
   }
@@ -88,9 +90,9 @@ function CartDisplay() {
             <h3>{p.name}</h3>
             <p>${p.price}</p>
             <p>qty: {p.quantity}</p>
-            <button onClick={() => incrementHandler(p.id)}>+</button>
-            <button onClick={() => decrementHandler(p.id)}>-</button>
-            <button onClick={() => removeHandler(p.id)}>Remove</button>
+            <button onClick={() => onIncrement(p.id)}>+</button>
+            <button onClick={() => onDecrement(p.id)}>-</button>
+            <button onClick={() => onRemoveFromCart(p.id)}>Remove</button>
           </div>
         ))}
       </div>
