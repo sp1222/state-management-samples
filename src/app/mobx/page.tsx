@@ -21,11 +21,10 @@ const ObservedProductListDisplay = observer(ProductListDisplay);
 const ObservedCartDisplay = observer(CartDisplay);
 
 function ProductListDisplay() {
-  const { addToCart, products } = cartStore;
+  const { addToCart } = cartStore;
   const { loading, productList, toggleDisabled } = productStore;
 
   const onAddToCart = (product: Product) => {
-    console.log(JSON.parse(JSON.stringify(products)));
     addToCart(product);
     toggleDisabled(product.id, true);
   };
@@ -38,7 +37,9 @@ function ProductListDisplay() {
           <div key={product.id}>
             <h3>{product.name}</h3>
             <p>${product.price}</p>
-            <button onClick={() => onAddToCart(product)} disabled={product.disabled}>{product.disabled ? "In Cart" : "Add"}</button>
+            <button onClick={() => onAddToCart(product)} disabled={product.disabled}>
+              {product.disabled ? "In Cart" : "Add"}
+            </button>
           </div>
         ))
       ) : (
