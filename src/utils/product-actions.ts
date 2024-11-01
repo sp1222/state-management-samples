@@ -1,6 +1,6 @@
 import { Product } from "@/types/cart-and-products";
 
-export async function initProductList() {
+export async function initProductList(): Promise<Product[]> {
   const init: Product[] = [];
   init.push({ id: 1, name: "bananas", price: 0.46, disabled: false });
   init.push({ id: 2, name: "apples", price: 0.52, disabled: false });
