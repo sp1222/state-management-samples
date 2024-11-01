@@ -29,7 +29,7 @@ function ProductListDisplay() {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   const addToCartHandler = (product: Product) => {
     if (!loading) {
