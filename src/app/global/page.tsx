@@ -27,17 +27,21 @@ function ProductListDisplay() {
 
   const onAddToCart = (product: Product) => addToCart(product);
 
-  return <div>
+  return (
+  <div>
     <h2>Products</h2>
     {!loading ? (productList.map((product) => (
       <div key={product.id}>
         <h3>{product.name}</h3>
         <p>${product.price}</p>
-        <button onClick={() => onAddToCart(product)} disabled={product.disabled}>{product.disabled ? "In Cart" : "Add"}</button>
+        <button onClick={() => onAddToCart(product)} disabled={product.disabled}>
+          {product.disabled ? "In Cart" : "Add"}
+        </button>
       </div>
     ))) : <p>Loading Products</p>
     }
-  </div>;
+  </div>
+  );
 }
 
 function CartDisplay() {
