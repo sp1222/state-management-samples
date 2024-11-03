@@ -1,7 +1,7 @@
 "use client";
 import { shoppingMachine } from "@/xstate/shopping-machine";
 import { useMachine } from "@xstate/react";
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import { Actor } from "xstate";
 
 interface ShoppingMachineContextType {
@@ -10,6 +10,7 @@ interface ShoppingMachineContextType {
 }
 
 export const ShoppingMachineContext = createContext<ShoppingMachineContextType>({
+  // eslint-disable-next-line
   state: (shoppingMachine as any).initialState,
   send: () => {},
 });
