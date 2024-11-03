@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch, store } from "@/redux/redux-store";
 import { fetchProducts, toggleDisabled } from "@/redux/product-slice";
@@ -57,25 +57,16 @@ function ProductListDisplay() {
 function CartDisplay() {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
-  const [lastDecremented, setLastDecremented] = useState<number>(-1);
-
-  useEffect(() => {
-    if (cart && dispatch && lastDecremented){
-      if (lastDecremented !== -1 && !cart.products.map(p => p.id).includes(lastDecremented)) {
-        dispatch(toggleDisabled({id: lastDecremented, disabled: true} as Product));
-        setLastDecremented(-1);
-      }
-    }
-  }, [cart, dispatch, lastDecremented]);
 
   const onIncrement = (id: number) => dispatch(increment(id));
   const onDecrement = (id: number) => {
+    // TODO: fixme, toggleDisabled does not go to false as expected
+    if (cart.products.find(p => p.id === id).quantity === 1 || 0) toggleDisabled({id: id, disabled: false} as Product);
     dispatch(decrement(id));
-    setLastDecremented(id);
   }
   const onRemoveFromCart = (id: number) => {
     dispatch(removeFromCart(id));
-    setLastDecremented(id);
+    toggleDisabled({id: id, disabled: false} as Product);
   }
 
   return (
